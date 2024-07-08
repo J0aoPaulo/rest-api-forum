@@ -1,17 +1,17 @@
 package tech.jdev.rest_api_forum.controller.dto;
 
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 
 public record CreateTopicDto(
-        @NotBlank
+        @NotEmpty (message = "{required.name}")
         String name,
-        @NotBlank
+        @NotEmpty (message = "{required.title}")
         String title,
-        @NotBlank
+        @NotEmpty (message = "{required.message}")
         String message,
-        @NotBlank
+        @NotEmpty (message = "{required.course}")
         String course,
-        @NotBlank
+        @NotEmpty (message = "{required.category}")
         String category
 ) {
 }

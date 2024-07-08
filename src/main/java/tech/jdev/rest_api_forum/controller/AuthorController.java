@@ -1,6 +1,7 @@
 package tech.jdev.rest_api_forum.controller;
 
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,7 +25,7 @@ public class AuthorController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<UUID> create(@RequestBody CreateAuthorDto authorDto) {
+    public ResponseEntity<UUID> create(@RequestBody @Valid CreateAuthorDto authorDto) {
         var userId = authorService.createUser(authorDto);
 
         return ResponseEntity.created(URI.create("/v1/authors/" + userId.toString())).build();
