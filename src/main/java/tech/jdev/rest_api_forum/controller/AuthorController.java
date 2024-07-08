@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import tech.jdev.rest_api_forum.domain.dto.CreateAuthorDto;
+import tech.jdev.rest_api_forum.controller.dto.CreateAuthorDto;
 import tech.jdev.rest_api_forum.service.AuthorService;
 
 import java.net.URI;

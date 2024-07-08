@@ -1,8 +1,8 @@
 package tech.jdev.rest_api_forum.service;
 
 import org.springframework.stereotype.Service;
-import tech.jdev.rest_api_forum.domain.dto.CreateAuthorDto;
-import tech.jdev.rest_api_forum.domain.entity.Author;
+import tech.jdev.rest_api_forum.controller.dto.CreateAuthorDto;
+import tech.jdev.rest_api_forum.entity.Author;
 import tech.jdev.rest_api_forum.repository.AuthorRepository;
 
 import java.util.UUID;

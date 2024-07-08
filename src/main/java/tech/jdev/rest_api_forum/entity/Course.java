@@ -1,4 +1,4 @@
-package tech.jdev.rest_api_forum.domain.entity;
+package tech.jdev.rest_api_forum.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -11,7 +11,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @Entity
-@Table(name = "course")
+@Table(name = "courses")
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")

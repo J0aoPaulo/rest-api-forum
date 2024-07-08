@@ -1,7 +1,7 @@
 package tech.jdev.rest_api_forum.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import tech.jdev.rest_api_forum.domain.entity.Author;
+import tech.jdev.rest_api_forum.entity.Author;
 
 import java.util.UUID;
 

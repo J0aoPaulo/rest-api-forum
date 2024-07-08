@@ -1,4 +1,4 @@
-package tech.jdev.rest_api_forum.domain.dto;
+package tech.jdev.rest_api_forum.controller.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

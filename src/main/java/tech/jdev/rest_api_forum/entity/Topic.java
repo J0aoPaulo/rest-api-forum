@@ -1,4 +1,4 @@
-package tech.jdev.rest_api_forum.domain.entity;
+package tech.jdev.rest_api_forum.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "topic")
+@Table(name = "topics")
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
