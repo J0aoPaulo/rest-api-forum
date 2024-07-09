@@ -6,4 +6,8 @@ import tech.jdev.rest_api_forum.entity.Topic;
 import java.util.UUID;
 
 public interface TopicRepository extends JpaRepository<Topic, UUID> {
+
+    boolean existsByMessage(String message);
+
+    boolean existsByTitle(String title);
 }
