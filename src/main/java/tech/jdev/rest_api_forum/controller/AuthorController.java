@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tech.jdev.rest_api_forum.controller.dto.CreateAuthorDto;
 import tech.jdev.rest_api_forum.controller.dto.ResponseAuthorDto;
+import tech.jdev.rest_api_forum.controller.dto.ResponseTopicDto;
 import tech.jdev.rest_api_forum.controller.dto.UpdateAuthorDto;
 import tech.jdev.rest_api_forum.entity.Author;
 import tech.jdev.rest_api_forum.repository.AuthorRepository;
@@ -49,14 +50,17 @@ public class AuthorController {
 
     @GetMapping("/{userId}")
     public ResponseEntity<ResponseAuthorDto> getUser(@PathVariable("userId") String userId) {
-        return authorService.getUser(userId)
-                .map(author -> ResponseEntity.ok(new ResponseAuthorDto(author)))
+        var user = authorRepository.findById(UUID.fromString(userId)).get();
+        List<ResponseTopicDto> topicsDtos = authorService.convertToTopicDto(user.getTopics());
+
+        return authorService.getAuthor(userId)
+                .map(author -> ResponseEntity.ok(new ResponseAuthorDto(author, topicsDtos)))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping
-    public ResponseEntity<List<Author>> getAllUsers() {
-        return ResponseEntity.ok(authorRepository.findAll());
+    public ResponseEntity<List<ResponseAuthorDto>> getAllUsers() {
+        return ResponseEntity.ok(authorService.getAllAuthors());
     }
 
     @DeleteMapping("/{userId}")

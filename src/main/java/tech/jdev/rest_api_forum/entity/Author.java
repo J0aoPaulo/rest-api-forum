@@ -28,7 +28,7 @@ public class Author {
     @Column(name = "password")
     private String password;
 
-    @OneToMany(mappedBy = "author")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "author")
     private List<Topic> topics;
 
     public Author(UUID id, String name, String email, String password) {

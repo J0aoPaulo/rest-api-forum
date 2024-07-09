@@ -2,10 +2,15 @@ package tech.jdev.rest_api_forum.service;
 
 import org.springframework.stereotype.Service;
 import tech.jdev.rest_api_forum.controller.dto.CreateAuthorDto;
+import tech.jdev.rest_api_forum.controller.dto.ResponseAuthorDto;
+import tech.jdev.rest_api_forum.controller.dto.ResponseTopicDto;
 import tech.jdev.rest_api_forum.controller.dto.UpdateAuthorDto;
 import tech.jdev.rest_api_forum.entity.Author;
+import tech.jdev.rest_api_forum.entity.Topic;
 import tech.jdev.rest_api_forum.repository.AuthorRepository;
+import tech.jdev.rest_api_forum.repository.TopicRepository;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
@@ -14,9 +19,11 @@ import java.util.UUID;
 public class AuthorService {
 
     private final AuthorRepository authorRepository;
+    private final TopicRepository topicRepository;
 
-    public AuthorService(AuthorRepository authorRepository) {
+    public AuthorService(AuthorRepository authorRepository, TopicRepository topicRepository) {
         this.authorRepository = authorRepository;
+        this.topicRepository = topicRepository;
     }
 
     public UUID createUser(CreateAuthorDto authorDto) {
@@ -31,8 +38,38 @@ public class AuthorService {
         return user.getId();
     }
 
-    public Optional<Author> getUser(String userId) {
-        return authorRepository.findById(UUID.fromString(userId));
+    public Optional<Author> getAuthor(String id) {
+        return authorRepository.findById(UUID.fromString(id));
+    }
+
+    public ResponseAuthorDto convertToAuthorDto(Author author) {
+        var topics = convertToTopicDto(author.getTopics());
+
+        return new ResponseAuthorDto(
+                author.getName(),
+                author.getEmail(),
+                author.getPassword(),
+                topics
+                );
+    }
+
+    public List<ResponseAuthorDto> getAllAuthors() {
+        List<Author> authors = authorRepository.findAll();
+
+        return authors.stream()
+                .map(this::convertToAuthorDto)
+                .toList();
+    }
+
+    public List<ResponseTopicDto> convertToTopicDto(List<Topic> topics) {
+        return topics.stream()
+                .map(topic -> new ResponseTopicDto(
+                        topic.getId().toString(),
+                        topic.getTitle(),
+                        topic.getMessage(),
+                        topic.getCreationDate(),
+                        topic.getAuthor().getId().toString()))
+                .toList();
     }
 
     public Author updateAuthor(UpdateAuthorDto updateAuthorDto) {

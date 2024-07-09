@@ -5,9 +5,9 @@ import tech.jdev.rest_api_forum.entity.Topic;
 
 import java.util.List;
 
-public record ResponseAuthorDto(String name, String email, String password, List<Topic> topics) {
+public record ResponseAuthorDto(String name, String email, String password, List<ResponseTopicDto> topics) {
 
-    public ResponseAuthorDto(Author author) {
-        this(author.getName(), author.getEmail(), author.getPassword(), null);
+    public ResponseAuthorDto(Author author, List<ResponseTopicDto> topics) {
+        this(author.getName(), author.getEmail(), author.getPassword(), topics);
     }
 }
