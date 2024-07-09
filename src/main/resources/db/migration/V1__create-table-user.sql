@@ -1,8 +1,8 @@
-create table authors (
-    id binary(16) not null,
-    name varchar(255) not null,
-    email varchar(255) unique not null,
-    password varchar(255) not null,
+CREATE TABLE authors (
+    id BINARY(16) NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) unique NOT NULL,
+    password VARCHAR(255) NOT NULL,
 
-    primary key (id)
+    PRIMARY KEY (id)
 )

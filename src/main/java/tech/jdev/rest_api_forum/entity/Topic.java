@@ -29,14 +29,13 @@ public class Topic {
     @Column(name = "creation_date")
     private Instant creationDate;
 
-    @Column(name = "status")
-    private boolean status;
+    @Column(name = "active")
+    private boolean active;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id")
     private Author author;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "course_id")
+    @Enumerated(EnumType.STRING)
     private Course course;
 }
