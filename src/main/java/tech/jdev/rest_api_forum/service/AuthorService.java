@@ -5,6 +5,7 @@ import tech.jdev.rest_api_forum.controller.dto.CreateAuthorDto;
 import tech.jdev.rest_api_forum.entity.Author;
 import tech.jdev.rest_api_forum.repository.AuthorRepository;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -19,7 +20,7 @@ public class AuthorService {
     public UUID createUser(CreateAuthorDto authorDto) {
 
         var user = new Author(
-                UUID.randomUUID(),
+                null,
                 authorDto.name(),
                 authorDto.email(),
                 authorDto.password()
@@ -27,5 +28,9 @@ public class AuthorService {
         authorRepository.save(user);
 
         return user.getId();
+    }
+
+    public Optional<Author> getUser(String userId) {
+        return authorRepository.findById(UUID.fromString(userId));
     }
 }

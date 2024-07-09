@@ -1,9 +1,12 @@
 package tech.jdev.rest_api_forum.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.UUID;
 
 @Entity
@@ -24,7 +27,7 @@ public class Topic {
     private String message;
 
     @Column(name = "creation_date")
-    private LocalDateTime creationDate;
+    private Instant creationDate;
 
     @Column(name = "status")
     private boolean status;
