@@ -16,6 +16,7 @@ import tech.jdev.rest_api_forum.utils.ConvertPageToDto;
 
 import java.net.URI;
 import java.util.NoSuchElementException;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/v1/topics")
@@ -48,5 +49,12 @@ public class TopicController {
         var topics = ConvertPageToDto.convert(pageTopics);
 
        return ResponseEntity.ok(topics);
+    }
+
+    @GetMapping("/{topicId}")
+    public ResponseEntity<ResponseTopicDto> getTopic(@PathVariable("topicId") String topicId) {
+        return topicRepository.findById(UUID.fromString(topicId))
+                .map(topic -> ResponseEntity.ok(new ResponseTopicDto(topic)))
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 }
