@@ -7,11 +7,13 @@ import tech.jdev.rest_api_forum.entity.Topic;
 public class ConvertPageToDto {
 
     public static Page<ResponseTopicDto> convert(Page<Topic> topics) {
-        return topics.map(topic -> new ResponseTopicDto(
+        return topics.map(topic -> new ResponseTopicDto (
                 topic.getId().toString(),
                 topic.getTitle(),
                 topic.getMessage(),
                 topic.getCreationDate(),
-                topic.getAuthor().getId().toString()));
+                topic.isActive(),
+                topic.getAuthor().getId().toString(),
+                topic.getCourse()));
     }
 }

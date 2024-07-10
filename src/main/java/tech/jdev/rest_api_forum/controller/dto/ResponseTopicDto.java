@@ -1,5 +1,6 @@
 package tech.jdev.rest_api_forum.controller.dto;
 
+import tech.jdev.rest_api_forum.entity.Course;
 import tech.jdev.rest_api_forum.entity.Topic;
 
 import java.time.Instant;
@@ -9,7 +10,9 @@ public record ResponseTopicDto(
         String title,
         String message,
         Instant creationDate,
-        String authorId) {
+        boolean active,
+        String authorId,
+        Course course) {
 
     public ResponseTopicDto(Topic topic) {
         this(
@@ -17,7 +20,9 @@ public record ResponseTopicDto(
             topic.getTitle(),
             topic.getMessage(),
             topic.getCreationDate(),
-            topic.getAuthor().getId().toString()
+            topic.isActive(),
+            topic.getAuthor().getId().toString(),
+            topic.getCourse()
         );
     }
 }

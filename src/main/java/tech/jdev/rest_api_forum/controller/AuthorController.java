@@ -38,11 +38,12 @@ public class AuthorController {
         return ResponseEntity.created(URI.create("/v1/authors/" + userId.toString())).build();
     }
 
-    @PutMapping
+    @PutMapping("/{authorId}")
     @Transactional
-    public ResponseEntity<UpdateAuthorDto> updateAuthor(@RequestBody @Valid UpdateAuthorDto updateAuthorDto) {
+    public ResponseEntity<UpdateAuthorDto> updateAuthor(@PathVariable("authorId") String authorId,
+                                                        @RequestBody @Valid UpdateAuthorDto updateAuthorDto) {
         try {
-            var updatedAuthor = authorService.updateAuthor(updateAuthorDto);
+            var updatedAuthor = authorService.updateAuthor(authorId, updateAuthorDto);
 
             return ResponseEntity.ok(new UpdateAuthorDto(updatedAuthor));
         } catch (NoSuchElementException ex) {

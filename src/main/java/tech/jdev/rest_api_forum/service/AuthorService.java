@@ -47,10 +47,9 @@ public class AuthorService {
                 .toList();
     }
 
-    public Author updateAuthor(UpdateAuthorDto updateAuthorDto) {
-        var id = UUID.fromString(updateAuthorDto.id());
-        var user = authorRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("No author found with id" + updateAuthorDto.id()));
+    public Author updateAuthor(String authorId, UpdateAuthorDto updateAuthorDto) {
+        var user = authorRepository.findById(UUID.fromString(authorId))
+                .orElseThrow(() -> new NoSuchElementException("No author found with id" + authorId));
 
         var name = Optional.ofNullable(updateAuthorDto.name()).orElse(user.getName());
         var email = Optional.ofNullable(updateAuthorDto.email()).orElse(user.getEmail());

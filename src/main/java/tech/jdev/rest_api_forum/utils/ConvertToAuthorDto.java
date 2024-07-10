@@ -12,6 +12,7 @@ public class ConvertToAuthorDto {
                 author.getName(),
                 author.getEmail(),
                 author.getPassword(),
+                author.getId().toString(),
                 topics
         );
     }

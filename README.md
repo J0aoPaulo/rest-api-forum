@@ -15,6 +15,7 @@
 - [Instalação](#instalação)
 - [Endpoints](#endpoints)
 
+
 ## Descrição
 
 A REST API Forum é uma aplicação backend que fornece endpoints para gerenciar tópicos, cursos e autores em um fórum de discussão. O projeto utiliza Spring Boot para construção da API e JWT para segurança.

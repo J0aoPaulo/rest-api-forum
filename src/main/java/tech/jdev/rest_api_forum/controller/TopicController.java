@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tech.jdev.rest_api_forum.controller.dto.CreateTopicDto;
 import tech.jdev.rest_api_forum.controller.dto.ResponseTopicDto;
+import tech.jdev.rest_api_forum.controller.dto.UpdateTopicDto;
 import tech.jdev.rest_api_forum.entity.Topic;
 import tech.jdev.rest_api_forum.exceptions.TopicAlreadyExistException;
 import tech.jdev.rest_api_forum.repository.TopicRepository;
@@ -41,6 +42,13 @@ public class TopicController {
         } catch (TopicAlreadyExistException ex) {
             return ResponseEntity.badRequest().build();
         }
+    }
+
+    @PutMapping("/{topicId}")
+    @Transactional
+    public ResponseEntity<ResponseTopicDto> updateTopic(@PathVariable("topicId") String topicId,
+                                                        @RequestBody UpdateTopicDto updateTopicDto) {
+        return null;
     }
 
     @GetMapping

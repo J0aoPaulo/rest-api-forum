@@ -14,7 +14,9 @@ public class ConvertToTopicDto {
                         topic.getTitle(),
                         topic.getMessage(),
                         topic.getCreationDate(),
-                        topic.getAuthor().getId().toString()))
+                        topic.isActive(),
+                        topic.getAuthor().getId().toString(),
+                        topic.getCourse()))
                 .toList();
     }
 }
