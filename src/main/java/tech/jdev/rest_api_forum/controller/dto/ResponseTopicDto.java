@@ -9,20 +9,16 @@ public record ResponseTopicDto(
         String id,
         String title,
         String message,
-        Instant creationDate,
-        boolean active,
-        String authorId,
-        Course course) {
+        Course course,
+        Instant creationDate) {
 
     public ResponseTopicDto(Topic topic) {
         this(
             topic.getId().toString(),
             topic.getTitle(),
             topic.getMessage(),
-            topic.getCreationDate(),
-            topic.isActive(),
-            topic.getAuthor().getId().toString(),
-            topic.getCourse()
+            topic.getCourse(),
+            topic.getCreationDate()
         );
     }
 }

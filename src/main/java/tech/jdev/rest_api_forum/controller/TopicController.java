@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tech.jdev.rest_api_forum.controller.dto.CreateTopicDto;
+import tech.jdev.rest_api_forum.controller.dto.ResponseDetailsTopic;
 import tech.jdev.rest_api_forum.controller.dto.ResponseTopicDto;
 import tech.jdev.rest_api_forum.controller.dto.UpdateTopicDto;
 import tech.jdev.rest_api_forum.entity.Topic;
@@ -36,7 +37,7 @@ public class TopicController {
     public ResponseEntity<Topic> createTopic(@RequestBody @Valid CreateTopicDto createTopicDto) {
         try {
             var topicUuid = topicService.createTopic(createTopicDto);
-            return ResponseEntity.created(URI.create("/v1/topics" + topicUuid.toString())).build();
+            return ResponseEntity.created(URI.create("/v1/topics/" + topicUuid.toString())).build();
         } catch (NoSuchElementException ex) {
             return ResponseEntity.notFound().build();
         } catch (TopicAlreadyExistException ex) {
@@ -70,9 +71,9 @@ public class TopicController {
     }
 
     @GetMapping("/{topicId}")
-    public ResponseEntity<ResponseTopicDto> getTopic(@PathVariable("topicId") String topicId) {
+    public ResponseEntity<ResponseDetailsTopic> getTopic(@PathVariable("topicId") String topicId) {
         return topicRepository.findById(UUID.fromString(topicId))
-                .map(topic -> ResponseEntity.ok(new ResponseTopicDto(topic)))
+                .map(topic -> ResponseEntity.ok(new ResponseDetailsTopic(topic)))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 

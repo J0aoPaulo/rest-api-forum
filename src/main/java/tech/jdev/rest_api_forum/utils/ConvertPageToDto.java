@@ -11,9 +11,8 @@ public class ConvertPageToDto {
                 topic.getId().toString(),
                 topic.getTitle(),
                 topic.getMessage(),
-                topic.getCreationDate(),
-                topic.isActive(),
-                topic.getAuthor().getId().toString(),
-                topic.getCourse()));
+                topic.getCourse(),
+                topic.getCreationDate()
+                ));
     }
 }

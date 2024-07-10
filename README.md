@@ -18,7 +18,8 @@
 
 ## Descrição
 
-A REST API Forum é uma aplicação backend que fornece endpoints para gerenciar tópicos, cursos e autores em um fórum de discussão. O projeto utiliza Spring Boot para construção da API e JWT para segurança.
+A REST API Forum é uma aplicação backend que fornece endpoints para gerenciar tópicos, 
+cursos e autores em um fórum de discussão. O projeto utiliza Spring Boot para construção da API e JWT para segurança.
 
 ## Instalação
 
@@ -58,31 +59,25 @@ A REST API Forum é uma aplicação backend que fornece endpoints para gerenciar
 
 ### Tópicos
 
-- `GET /topics`: Lista todos os tópicos.
-- `GET /topics/{id}`: Detalha um tópico específico.
 - `POST /topics`: Cria um novo tópico.
 - `PUT /topics/{id}`: Atualiza um tópico existente.
+- `GET /topics/active`: Lista todos os tópicos ativos.
+- `GET /topics/inactive`: Lista todos os tópicos desativados.
+- `GET /topics/{id}`: Detalha um tópico específico.
 - `DELETE /topics/{id}`: Deleta um tópico.
-
-### Cursos
-
-- `GET /courses`: Lista todos os cursos.
-- `GET /courses/{id}`: Detalha um curso específico.
-- `POST /courses`: Cria um novo curso.
-- `PUT /courses/{id}`: Atualiza um curso existente.
-- `DELETE /courses/{id}`: Deleta um curso.
 
 ### Autores
 
-- `GET /authors`: Lista todos os autores.
-- `GET /authors/{id}`: Detalha um autor específico.
 - `POST /authors`: Cria um novo autor.
 - `PUT /authors/{id}`: Atualiza um autor existente.
+- `GET /authors`: Lista todos os autores.
+- `GET /authors/{id}`: Detalha um autor específico.
 - `DELETE /authors/{id}`: Deleta um autor.
 
 ### Segurança
 
-A API utiliza JWT para autenticação e autorização. A rota `/login` é pública, enquanto as demais exigem um token JWT válido no header da requisição.
+A API utiliza JWT para autenticação e autorização. A rota `/login` é pública, 
+enquanto as demais exigem um token JWT válido no header da requisição.
 
 ## Contribuição
 
