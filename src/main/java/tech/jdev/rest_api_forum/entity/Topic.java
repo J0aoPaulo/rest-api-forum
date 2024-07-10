@@ -1,10 +1,7 @@
 package tech.jdev.rest_api_forum.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -15,6 +12,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 @Getter
+@Setter
 public class Topic {
 
     @Id @GeneratedValue(strategy = GenerationType.UUID)

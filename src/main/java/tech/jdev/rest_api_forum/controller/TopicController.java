@@ -48,7 +48,9 @@ public class TopicController {
     @Transactional
     public ResponseEntity<ResponseTopicDto> updateTopic(@PathVariable("topicId") String topicId,
                                                         @RequestBody UpdateTopicDto updateTopicDto) {
-        return null;
+
+        var updatedTopic = topicService.updateTopic(topicId, updateTopicDto);
+        return ResponseEntity.ok(new ResponseTopicDto(updatedTopic));
     }
 
     @GetMapping

@@ -2,6 +2,7 @@ package tech.jdev.rest_api_forum.service;
 
 import org.springframework.stereotype.Service;
 import tech.jdev.rest_api_forum.controller.dto.CreateTopicDto;
+import tech.jdev.rest_api_forum.controller.dto.UpdateTopicDto;
 import tech.jdev.rest_api_forum.entity.Topic;
 import tech.jdev.rest_api_forum.exceptions.TopicAlreadyExistException;
 import tech.jdev.rest_api_forum.repository.AuthorRepository;
@@ -9,6 +10,7 @@ import tech.jdev.rest_api_forum.repository.TopicRepository;
 
 import java.time.Instant;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -30,8 +32,7 @@ public class TopicService {
             throw new TopicAlreadyExistException("Topic already exist in database. Change title or message.");
 
         var author = authorRepository.findById(UUID.fromString(topicDto.authorId()))
-                .orElseThrow(
-                        () -> new NoSuchElementException("Not author found with id " + topicDto.authorId()));
+                .orElseThrow(() -> new NoSuchElementException("Not author found with id " + topicDto.authorId()));
 
         var topic = new Topic(
                 null,
@@ -45,5 +46,29 @@ public class TopicService {
         topicRepository.save(topic);
 
         return topic.getId();
+    }
+
+    public Topic updateTopic(String id, UpdateTopicDto updateDto) {
+        var updatedTopic = topicRepository.findById(UUID.fromString(id))
+                .orElseThrow(() -> new NoSuchElementException("Topic with id " + id + " not found"));
+
+        if (updateDto.message() != null)
+            updatedTopic.setMessage(buildUpdatedMessage(updatedTopic.getMessage(), updateDto.message()).toString());
+
+        if (updateDto.active() == null)
+            updatedTopic.setActive(updatedTopic.isActive());
+        else if (updatedTopic.isActive() != updateDto.active())
+            updatedTopic.setActive(updateDto.active());
+
+        updatedTopic.setCourse(Optional.ofNullable(updateDto.course()).orElse(updatedTopic.getCourse()));
+
+        topicRepository.save(updatedTopic);
+        return updatedTopic;
+    }
+
+    private StringBuilder buildUpdatedMessage(String actualMessage, String newMesage) {
+        StringBuilder sb = new StringBuilder();
+
+        return sb.append(actualMessage).append(" ").append(newMesage);
     }
 }

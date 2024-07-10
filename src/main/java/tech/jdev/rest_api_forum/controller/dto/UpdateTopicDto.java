@@ -1,4 +1,6 @@
 package tech.jdev.rest_api_forum.controller.dto;
 
-public record UpdateTopicDto(String topicId) {
+import tech.jdev.rest_api_forum.entity.Course;
+
+public record UpdateTopicDto(String topicId, String message, Boolean active, Course course) {
 }
