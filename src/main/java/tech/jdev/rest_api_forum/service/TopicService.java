@@ -71,4 +71,21 @@ public class TopicService {
 
         return sb.append(actualMessage).append(" ").append(newMesage);
     }
+
+    public void disableTopic(String userId) {
+        var topicUuid = UUID.fromString(userId);
+        var topic = topicRepository.findById(topicUuid)
+                .orElseThrow(() -> new NoSuchElementException("Topic with id " + userId + " not found"));
+
+        topic.setActive(false);
+    }
+
+    public void deleteTopic(String userId) {
+        var topicUuid = UUID.fromString(userId);
+
+        if (!topicRepository.existsById(topicUuid))
+            throw new NoSuchElementException("Topic with id " + userId + " not found");
+
+        topicRepository.deleteById(topicUuid);
+    }
 }

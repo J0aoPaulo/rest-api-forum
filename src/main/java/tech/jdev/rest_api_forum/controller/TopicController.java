@@ -76,11 +76,25 @@ public class TopicController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @DeleteMapping("/{topicId}")
+    @DeleteMapping("/{topicId}/disable")
     @Transactional
-    public ResponseEntity<Void> deleteTopic(@PathVariable("topicId") String topicId) {
-        topicRepository.deleteById(UUID.fromString(topicId));
+    public ResponseEntity<Void> disableTopic(@PathVariable("topicId") String topicId) {
+        try {
+            topicService.disableTopic(topicId);
+            return ResponseEntity.ok().build();
+        } catch (NoSuchElementException ex) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
-        return ResponseEntity.ok().build();
+    @DeleteMapping("/{topicId}/delete")
+    @Transactional
+    public ResponseEntity<Void> deleteTopic(@PathVariable("topicId") String topidId) {
+        try {
+            topicService.deleteTopic(topidId);
+            return ResponseEntity.ok().build();
+        } catch (NoSuchElementException ex) {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
