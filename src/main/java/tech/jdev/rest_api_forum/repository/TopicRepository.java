@@ -14,4 +14,8 @@ public interface TopicRepository extends JpaRepository<Topic, UUID> {
     boolean existsByTitle(String title);
 
     Page<Topic> findAll(Pageable pageable);
+
+    Page<Topic> findAllByActiveTrue(Pageable pageable);
+
+    Page<Topic> findAllByActiveFalse(Pageable pageable);
 }

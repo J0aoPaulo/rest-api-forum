@@ -53,12 +53,20 @@ public class TopicController {
         return ResponseEntity.ok(new ResponseTopicDto(updatedTopic));
     }
 
-    @GetMapping
-    public ResponseEntity<Page<ResponseTopicDto>> getAllTopics(Pageable pageable) {
-        var pageTopics = topicRepository.findAll(pageable);
+    @GetMapping("/active")
+    public ResponseEntity<Page<ResponseTopicDto>> getAllActivatedTopics(Pageable pageable) {
+        var pageTopics = topicRepository.findAllByActiveTrue(pageable);
         var topics = ConvertPageToDto.convert(pageTopics);
 
-       return ResponseEntity.ok(topics);
+        return ResponseEntity.ok(topics);
+    }
+
+    @GetMapping(path = "/inactive")
+    public ResponseEntity<Page<ResponseTopicDto>> getAllDesactivatedTopics(Pageable pageable) {
+        var pageTopics = topicRepository.findAllByActiveFalse(pageable);
+        var topics = ConvertPageToDto.convert(pageTopics);
+
+        return ResponseEntity.ok(topics);
     }
 
     @GetMapping("/{topicId}")
@@ -66,5 +74,13 @@ public class TopicController {
         return topicRepository.findById(UUID.fromString(topicId))
                 .map(topic -> ResponseEntity.ok(new ResponseTopicDto(topic)))
                 .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @DeleteMapping("/{topicId}")
+    @Transactional
+    public ResponseEntity<Void> deleteTopic(@PathVariable("topicId") String topicId) {
+        topicRepository.deleteById(UUID.fromString(topicId));
+
+        return ResponseEntity.ok().build();
     }
 }
