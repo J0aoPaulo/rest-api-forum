@@ -4,6 +4,7 @@
 ![Spring](https://img.shields.io/badge/Spring_Boot-F2F4F9?style=for-the-badge&logo=spring-boot)
 ![Spring-security](https://img.shields.io/badge/Spring_Security-6DB50F?style=for-the-badge&logo=Spring-Security&logoColor=white)
 ![JWT](https://img.shields.io/badge/JSON%20Web%20Tokens-46317c.svg?style=for-the-badge&logo=JSON-Web-Tokens&logoColor=white)
+![OAUTH2](https://img.shields.io/badge/OAUTH2-%23E84242?style=for-the-badge&logo=OAUTH2&logoColor=953030)
 ![Hibernate](https://img.shields.io/badge/Hibernate-59666C?style=for-the-badge&logo=Hibernate&logoColor=white)
 ![MYSQL](https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white)
 ![Flyway](https://img.shields.io/badge/Flyway-CC0200.svg?style=for-the-badge&logo=Flyway&logoColor=white)
