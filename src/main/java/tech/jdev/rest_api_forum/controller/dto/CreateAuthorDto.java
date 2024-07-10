@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotEmpty;
 public record CreateAuthorDto(
         @NotEmpty(message = "{required.name}")
         String name,
+        @NotEmpty
+        String username,
         @Email (message = "{format.email}")
         @NotEmpty (message = "{required.email}")
         String email,

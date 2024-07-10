@@ -1,5 +1,6 @@
 package tech.jdev.rest_api_forum.service;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import tech.jdev.rest_api_forum.controller.dto.CreateAuthorDto;
 import tech.jdev.rest_api_forum.controller.dto.ResponseAuthorDto;
@@ -17,17 +18,20 @@ import java.util.UUID;
 public class AuthorService {
 
     private final AuthorRepository authorRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public AuthorService(AuthorRepository authorRepository) {
+    public AuthorService(AuthorRepository authorRepository, PasswordEncoder passwordEncoder) {
         this.authorRepository = authorRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public UUID createUser(CreateAuthorDto authorDto) {
         var user = new Author(
                 null,
                 authorDto.name(),
+                authorDto.username(),
                 authorDto.email(),
-                authorDto.password()
+                passwordEncoder.encode(authorDto.password())
         );
         authorRepository.save(user);
 
@@ -53,11 +57,12 @@ public class AuthorService {
 
         var name = Optional.ofNullable(updateAuthorDto.name()).orElse(user.getName());
         var email = Optional.ofNullable(updateAuthorDto.email()).orElse(user.getEmail());
-        var password = Optional.ofNullable(updateAuthorDto.password()).orElse(user.getPassword());
+
+        if (updateAuthorDto.password() != null)
+            user.setPassword(passwordEncoder.encode(updateAuthorDto.password()));
 
         user.setName(name);
         user.setEmail(email);
-        user.setPassword(password);
         authorRepository.save(user);
 
         return user;

@@ -22,6 +22,9 @@ public class Author {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "username", unique = true)
+    private String username;
+
     @Column(name = "email", unique = true)
     private String email;
 
@@ -31,9 +34,10 @@ public class Author {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "author", cascade = CascadeType.ALL)
     private List<Topic> topics;
 
-    public Author(UUID id, String name, String email, String password) {
+    public Author(UUID id, String name, String username, String email, String password) {
         this.id = id;
         this.name = name;
+        this.username = username;
         this.email = email;
         this.password = password;
     }
