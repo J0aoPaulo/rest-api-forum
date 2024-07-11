@@ -16,7 +16,6 @@ public class UserService {
     }
 
     public boolean logisCorrect(RequestLoginDto loginDto, PasswordEncoder passwordEncoder, Author author) {
-        System.out.println("codificou");
         return passwordEncoder.matches(loginDto.password(), author.getPassword());
     }
 }
