@@ -1,5 +1,6 @@
 package tech.jdev.rest_api_forum.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
+@SecurityRequirement(name = "bearer-key")
 @RequestMapping("/v1/authors")
 public class AuthorController {
 

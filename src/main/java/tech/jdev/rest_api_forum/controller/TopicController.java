@@ -1,5 +1,6 @@
 package tech.jdev.rest_api_forum.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -16,10 +17,10 @@ import tech.jdev.rest_api_forum.service.TopicService;
 import tech.jdev.rest_api_forum.utils.ConvertPageToDto;
 
 import java.net.URI;
-import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @RestController
+@SecurityRequirement(name = "bearer-key")
 @RequestMapping("/v1/topics")
 public class TopicController {
 
