@@ -15,7 +15,6 @@ import tech.jdev.rest_api_forum.utils.ConvertToTopicDto;
 
 import java.net.URI;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @RestController
@@ -42,25 +41,18 @@ public class AuthorController {
     @Transactional
     public ResponseEntity<UpdateAuthorDto> updateAuthor(@PathVariable("authorId") String authorId,
                                                         @RequestBody @Valid UpdateAuthorDto updateAuthorDto) {
-        try {
-            var updatedAuthor = authorService.updateAuthor(authorId, updateAuthorDto);
 
-            return ResponseEntity.ok(new UpdateAuthorDto(updatedAuthor));
-        } catch (NoSuchElementException ex) {
-           return ResponseEntity.notFound().build();
-        }
+        var updatedAuthor = authorService.updateAuthor(authorId, updateAuthorDto);
+
+        return ResponseEntity.ok(new UpdateAuthorDto(updatedAuthor));
     }
 
     @GetMapping("/{userId}")
     public ResponseEntity<ResponseAuthorDto> getUser(@PathVariable("userId") String userId) {
-        try {
-            var author = authorService.getAuthor(userId).get();
-            List<ResponseTopicDto> topics = ConvertToTopicDto.convert(author.getTopics());
+        var author = authorService.getAuthor(userId).get();
+        List<ResponseTopicDto> topics = ConvertToTopicDto.convert(author.getTopics());
 
-            return ResponseEntity.ok(new ResponseAuthorDto(author, topics));
-        } catch (NoSuchElementException ex) {
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok(new ResponseAuthorDto(author, topics));
     }
 
     @GetMapping

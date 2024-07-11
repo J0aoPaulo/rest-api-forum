@@ -11,7 +11,6 @@ import tech.jdev.rest_api_forum.controller.dto.ResponseDetailsTopic;
 import tech.jdev.rest_api_forum.controller.dto.ResponseTopicDto;
 import tech.jdev.rest_api_forum.controller.dto.UpdateTopicDto;
 import tech.jdev.rest_api_forum.entity.Topic;
-import tech.jdev.rest_api_forum.exceptions.TopicAlreadyExistException;
 import tech.jdev.rest_api_forum.repository.TopicRepository;
 import tech.jdev.rest_api_forum.service.TopicService;
 import tech.jdev.rest_api_forum.utils.ConvertPageToDto;
@@ -35,14 +34,9 @@ public class TopicController {
     @PostMapping
     @Transactional
     public ResponseEntity<Topic> createTopic(@RequestBody @Valid CreateTopicDto createTopicDto) {
-        try {
-            var topicUuid = topicService.createTopic(createTopicDto);
-            return ResponseEntity.created(URI.create("/v1/topics/" + topicUuid.toString())).build();
-        } catch (NoSuchElementException ex) {
-            return ResponseEntity.notFound().build();
-        } catch (TopicAlreadyExistException ex) {
-            return ResponseEntity.badRequest().build();
-        }
+        var topicUuid = topicService.createTopic(createTopicDto);
+
+        return ResponseEntity.created(URI.create("/v1/topics/" + topicUuid.toString())).build();
     }
 
     @PutMapping("/{topicId}")
@@ -80,22 +74,14 @@ public class TopicController {
     @DeleteMapping("/{topicId}/disable")
     @Transactional
     public ResponseEntity<Void> disableTopic(@PathVariable("topicId") String topicId) {
-        try {
-            topicService.disableTopic(topicId);
-            return ResponseEntity.ok().build();
-        } catch (NoSuchElementException ex) {
-            return ResponseEntity.notFound().build();
-        }
+        topicService.disableTopic(topicId);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{topicId}/delete")
     @Transactional
     public ResponseEntity<Void> deleteTopic(@PathVariable("topicId") String topidId) {
-        try {
-            topicService.deleteTopic(topidId);
-            return ResponseEntity.ok().build();
-        } catch (NoSuchElementException ex) {
-            return ResponseEntity.notFound().build();
-        }
+        topicService.deleteTopic(topidId);
+        return ResponseEntity.ok().build();
     }
 }

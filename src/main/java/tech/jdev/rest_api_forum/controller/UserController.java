@@ -36,16 +36,11 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<ResponseLoginDto> login(@RequestBody @Valid RequestLoginDto login) {
-        Author author;
-        try {
-            author = authorRepository.findByUsername(login.username())
-                    .orElseThrow(() -> new NoSuchElementException("Author username dont found"));
-        } catch (NoSuchElementException ex) {
-            return ResponseEntity.notFound().build();
-        }
+        var author = authorRepository.findByUsername(login.username())
+                .orElseThrow(() -> new NoSuchElementException("Author username dont found"));
 
         if (userService.logisCorrect(login, bCryptPasswordEncoder, author)) {
-            var expiresIn = 300L;
+            var expiresIn = 3000L;
 
             var claims = JwtClaimsSet.builder()
                     .issuer("rest-api-forum")
