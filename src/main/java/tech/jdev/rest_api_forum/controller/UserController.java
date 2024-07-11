@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import tech.jdev.rest_api_forum.controller.dto.RequestLoginDto;
 import tech.jdev.rest_api_forum.controller.dto.ResponseLoginDto;
-import tech.jdev.rest_api_forum.entity.Author;
 import tech.jdev.rest_api_forum.repository.AuthorRepository;
 import tech.jdev.rest_api_forum.service.UserService;
 

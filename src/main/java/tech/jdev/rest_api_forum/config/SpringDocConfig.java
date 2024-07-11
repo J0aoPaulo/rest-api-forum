@@ -1,4 +1,4 @@
-package tech.jdev.rest_api_forum.configuration;
+package tech.jdev.rest_api_forum.config;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;

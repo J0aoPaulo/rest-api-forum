@@ -1,7 +1,6 @@
 package tech.jdev.rest_api_forum.controller.dto;
 
 import tech.jdev.rest_api_forum.entity.Author;
-import tech.jdev.rest_api_forum.entity.Topic;
 
 import java.util.List;
 

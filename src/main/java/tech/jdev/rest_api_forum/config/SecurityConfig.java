@@ -1,4 +1,4 @@
-package tech.jdev.rest_api_forum.configuration;
+package tech.jdev.rest_api_forum.config;
 
 import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.JWKSet;
