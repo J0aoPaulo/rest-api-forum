@@ -1,5 +1,5 @@
 CREATE TABLE topics (
-    id BINARY(16) NOT NULL,
+    id BINARY(16) NOT NULL UNIQUE,
     title VARCHAR(255) NOT NULL,
     message VARCHAR(255) NOT NULL,
     creation_date TIMESTAMP NOT NULL,
