@@ -32,22 +32,18 @@ public class Author {
     @Column(name = "password")
     private String password;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "roles",
-            joinColumns = @JoinColumn(name = "id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    Set<Role> roles;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "author", cascade = CascadeType.ALL)
     private List<Topic> topics;
 
-    public Author(UUID id, String name, String username, String email, String password) {
+    public Author(UUID id, String name, String username, String email, String password, Role role) {
         this.id = id;
         this.name = name;
         this.username = username;
         this.email = email;
         this.password = password;
+        this.role = role;
     }
 }

@@ -44,6 +44,7 @@ public class UserController {
             var claims = JwtClaimsSet.builder()
                     .issuer("rest-api-forum")
                     .subject(author.getId().toString())
+                    .claim("role", author.getRole())
                     .issuedAt(Instant.now())
                     .expiresAt(Instant.now().plusSeconds(expiresIn))
                     .build();

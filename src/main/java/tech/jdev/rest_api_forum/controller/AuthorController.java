@@ -4,11 +4,9 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import tech.jdev.rest_api_forum.controller.dto.CreateAuthorDto;
-import tech.jdev.rest_api_forum.controller.dto.ResponseAuthorDto;
-import tech.jdev.rest_api_forum.controller.dto.ResponseTopicDto;
-import tech.jdev.rest_api_forum.controller.dto.UpdateAuthorDto;
+import tech.jdev.rest_api_forum.controller.dto.*;
 import tech.jdev.rest_api_forum.entity.Author;
 import tech.jdev.rest_api_forum.repository.AuthorRepository;
 import tech.jdev.rest_api_forum.service.AuthorService;
@@ -16,6 +14,7 @@ import tech.jdev.rest_api_forum.utils.ConvertToTopicDto;
 
 import java.net.URI;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @RestController
@@ -33,7 +32,7 @@ public class AuthorController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<Author> create(@RequestBody @Valid CreateAuthorDto authorDto) {
+    public ResponseEntity<Void> create(@RequestBody @Valid CreateAuthorDto authorDto) {
         var userId = authorService.createUser(authorDto);
 
         return ResponseEntity.created(URI.create("/v1/authors/" + userId.toString())).build();
@@ -50,6 +49,7 @@ public class AuthorController {
     }
 
     @GetMapping("/{userId}")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseEntity<ResponseAuthorDto> getUser(@PathVariable("userId") String userId) {
         var author = authorService.getAuthor(userId).get();
         List<ResponseTopicDto> topics = ConvertToTopicDto.convert(author.getTopics());
@@ -58,17 +58,30 @@ public class AuthorController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
     public ResponseEntity<List<ResponseAuthorDto>> getAllUsers() {
         return ResponseEntity.ok(authorService.getAllAuthors());
     }
 
     @DeleteMapping("/{userId}")
     @Transactional
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseEntity<Void> deleteAuthor(@PathVariable("userId") String userId) {
         if (authorRepository.existsById(UUID.fromString(userId))) {
             authorRepository.deleteById(UUID.fromString(userId));
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();
+    }
+
+    @DeleteMapping
+    @Transactional
+    public ResponseEntity<Void> deleteOwnAccount(@RequestBody @Valid DeleteAccountDto deleteDto) {
+        var user = authorRepository.findByUsername(deleteDto.username())
+                .orElseThrow(() -> new NoSuchElementException("Username incorrect"));
+
+        authorRepository.delete(user);
+
+        return ResponseEntity.ok().build();
     }
 }

@@ -6,6 +6,7 @@ import tech.jdev.rest_api_forum.controller.dto.CreateAuthorDto;
 import tech.jdev.rest_api_forum.controller.dto.ResponseAuthorDto;
 import tech.jdev.rest_api_forum.controller.dto.UpdateAuthorDto;
 import tech.jdev.rest_api_forum.entity.Author;
+import tech.jdev.rest_api_forum.entity.Role;
 import tech.jdev.rest_api_forum.repository.AuthorRepository;
 import tech.jdev.rest_api_forum.utils.ConvertToAuthorDto;
 
@@ -25,13 +26,40 @@ public class AuthorService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    public void verifyUserExist(CreateAuthorDto authorDto) {
+        var usernameExist = authorRepository.existsByUsername(authorDto.username());
+        var emailExist = authorRepository.existsByEmail(authorDto.email());
+
+        if (usernameExist || emailExist)
+            throw new NoSuchElementException("User already registered");
+    }
+
     public UUID createUser(CreateAuthorDto authorDto) {
+        verifyUserExist(authorDto);
+
         var user = new Author(
                 null,
                 authorDto.name(),
                 authorDto.username(),
                 authorDto.email(),
-                passwordEncoder.encode(authorDto.password())
+                passwordEncoder.encode(authorDto.password()),
+                Role.BASIC
+        );
+        authorRepository.save(user);
+
+        return user.getId();
+    }
+
+    public UUID createAdmin(CreateAuthorDto authorDto) {
+        verifyUserExist(authorDto);
+
+        var user = new Author(
+                null,
+                authorDto.name(),
+                authorDto.username(),
+                authorDto.email(),
+                passwordEncoder.encode(authorDto.password()),
+                Role.ADMIN
         );
         authorRepository.save(user);
 
