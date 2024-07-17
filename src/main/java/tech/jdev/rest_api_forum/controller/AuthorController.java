@@ -49,7 +49,7 @@ public class AuthorController {
     }
 
     @GetMapping("/{userId}")
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<ResponseAuthorDto> getUser(@PathVariable("userId") String userId) {
         var author = authorService.getAuthor(userId).get();
         List<ResponseTopicDto> topics = ConvertToTopicDto.convert(author.getTopics());
@@ -58,14 +58,14 @@ public class AuthorController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<List<ResponseAuthorDto>> getAllUsers() {
         return ResponseEntity.ok(authorService.getAllAuthors());
     }
 
     @DeleteMapping("/{userId}")
     @Transactional
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Void> deleteAuthor(@PathVariable("userId") String userId) {
         if (authorRepository.existsById(UUID.fromString(userId))) {
             authorRepository.deleteById(UUID.fromString(userId));
