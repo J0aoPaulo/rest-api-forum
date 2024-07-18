@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -32,18 +31,22 @@ public class Author {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "active")
+    private boolean active;
+
     @Enumerated(EnumType.STRING)
     private Role role;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "author", cascade = CascadeType.ALL)
     private List<Topic> topics;
 
-    public Author(UUID id, String name, String username, String email, String password, Role role) {
+    public Author(UUID id, String name, String username, String email, String password, Role role, boolean active) {
         this.id = id;
         this.name = name;
         this.username = username;
         this.email = email;
         this.password = password;
         this.role = role;
+        this.active = active;
     }
 }

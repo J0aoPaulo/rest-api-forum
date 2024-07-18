@@ -1,6 +1,7 @@
 package tech.jdev.rest_api_forum.controller;
 
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
@@ -38,7 +39,7 @@ public class UserController {
         var author = authorRepository.findByUsername(login.username())
                 .orElseThrow(() -> new NoSuchElementException("Author username dont found"));
 
-        if (userService.logisCorrect(login, bCryptPasswordEncoder, author)) {
+        if (userService.isLoginCorrect(login, bCryptPasswordEncoder, author)) {
             var expiresIn = 3000L;
 
             var claims = JwtClaimsSet.builder()
@@ -54,6 +55,6 @@ public class UserController {
             return ResponseEntity.ok(new ResponseLoginDto(jwtValue, expiresIn));
         }
 
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 }

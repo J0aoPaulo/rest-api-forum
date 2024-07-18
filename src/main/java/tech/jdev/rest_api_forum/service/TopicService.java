@@ -28,7 +28,7 @@ public class TopicService {
         var titleExist = topicRepository.existsByTitle(topicDto.title());
         var messageExist = topicRepository.existsByMessage(topicDto.message());
 
-        if (titleExist || messageExist)
+        if (titleExist && messageExist)
             throw new TopicAlreadyExistException("Topic already exist in database. Change title or message.");
 
         var author = authorRepository.findById(UUID.fromString(topicDto.authorId()))

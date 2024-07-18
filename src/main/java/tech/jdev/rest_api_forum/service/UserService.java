@@ -15,7 +15,7 @@ public class UserService {
         this.authorRepository = authorRepository;
     }
 
-    public boolean logisCorrect(RequestLoginDto loginDto, PasswordEncoder passwordEncoder, Author author) {
+    public boolean isLoginCorrect(RequestLoginDto loginDto, PasswordEncoder passwordEncoder, Author author) {
         return passwordEncoder.matches(loginDto.password(), author.getPassword());
     }
 }

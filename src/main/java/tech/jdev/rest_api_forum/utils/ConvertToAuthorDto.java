@@ -11,7 +11,6 @@ public class ConvertToAuthorDto {
         return new ResponseAuthorDto(
                 author.getName(),
                 author.getEmail(),
-                author.getPassword(),
                 author.getId().toString(),
                 topics
         );

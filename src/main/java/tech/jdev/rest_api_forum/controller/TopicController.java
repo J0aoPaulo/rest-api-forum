@@ -6,12 +6,12 @@ import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import tech.jdev.rest_api_forum.controller.dto.CreateTopicDto;
 import tech.jdev.rest_api_forum.controller.dto.ResponseDetailsTopic;
 import tech.jdev.rest_api_forum.controller.dto.ResponseTopicDto;
 import tech.jdev.rest_api_forum.controller.dto.UpdateTopicDto;
-import tech.jdev.rest_api_forum.entity.Topic;
 import tech.jdev.rest_api_forum.repository.TopicRepository;
 import tech.jdev.rest_api_forum.service.TopicService;
 import tech.jdev.rest_api_forum.utils.ConvertPageToDto;
@@ -34,7 +34,7 @@ public class TopicController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<Topic> createTopic(@RequestBody @Valid CreateTopicDto createTopicDto) {
+    public ResponseEntity<Void> createTopic(@RequestBody @Valid CreateTopicDto createTopicDto) {
         var topicUuid = topicService.createTopic(createTopicDto);
 
         return ResponseEntity.created(URI.create("/v1/topics/" + topicUuid.toString())).build();
@@ -50,6 +50,7 @@ public class TopicController {
     }
 
     @GetMapping("/active")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<Page<ResponseTopicDto>> getAllActivatedTopics(Pageable pageable) {
         var pageTopics = topicRepository.findAllByActiveTrue(pageable);
         var topics = ConvertPageToDto.convert(pageTopics);
@@ -58,6 +59,7 @@ public class TopicController {
     }
 
     @GetMapping(path = "/inactive")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<Page<ResponseTopicDto>> getAllDesactivatedTopics(Pageable pageable) {
         var pageTopics = topicRepository.findAllByActiveFalse(pageable);
         var topics = ConvertPageToDto.convert(pageTopics);
@@ -65,14 +67,24 @@ public class TopicController {
         return ResponseEntity.ok(topics);
     }
 
-    @GetMapping("/{topicId}")
-    public ResponseEntity<ResponseDetailsTopic> getTopic(@PathVariable("topicId") String topicId) {
-        return topicRepository.findById(UUID.fromString(topicId))
-                .map(topic -> ResponseEntity.ok(new ResponseDetailsTopic(topic)))
+    @GetMapping("/{topicId}/info")
+    public ResponseEntity<ResponseTopicDto> getTopic(@PathVariable("topicId") String topicId) {
+        return topicRepository
+                .findById(UUID.fromString(topicId))
+                .map(t -> ResponseEntity.ok(new ResponseTopicDto(t)))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @DeleteMapping("/{topicId}/disable")
+    @GetMapping("/{topicId}/info/detail")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<ResponseDetailsTopic> getDetailTopic(@PathVariable("topicId") String topicId) {
+        return topicRepository
+                .findById(UUID.fromString(topicId))
+                .map(t -> ResponseEntity.ok(new ResponseDetailsTopic(t)))
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @DeleteMapping("{topicId}/disable")
     @Transactional
     public ResponseEntity<Void> disableTopic(@PathVariable("topicId") String topicId) {
         topicService.disableTopic(topicId);
@@ -81,8 +93,9 @@ public class TopicController {
 
     @DeleteMapping("/{topicId}/delete")
     @Transactional
-    public ResponseEntity<Void> deleteTopic(@PathVariable("topicId") String topidId) {
-        topicService.deleteTopic(topidId);
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<Void> deleteTopic(@PathVariable("topicId") String topicdId) {
+        topicService.deleteTopic(topicdId);
         return ResponseEntity.ok().build();
     }
 }

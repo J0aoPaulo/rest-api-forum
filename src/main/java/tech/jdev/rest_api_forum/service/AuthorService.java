@@ -7,6 +7,7 @@ import tech.jdev.rest_api_forum.controller.dto.ResponseAuthorDto;
 import tech.jdev.rest_api_forum.controller.dto.UpdateAuthorDto;
 import tech.jdev.rest_api_forum.entity.Author;
 import tech.jdev.rest_api_forum.entity.Role;
+import tech.jdev.rest_api_forum.exceptions.UserAlreadyExist;
 import tech.jdev.rest_api_forum.repository.AuthorRepository;
 import tech.jdev.rest_api_forum.utils.ConvertToAuthorDto;
 
@@ -31,7 +32,7 @@ public class AuthorService {
         var emailExist = authorRepository.existsByEmail(authorDto.email());
 
         if (usernameExist || emailExist)
-            throw new NoSuchElementException("User already registered");
+            throw new UserAlreadyExist("User already exist in database.");
     }
 
     public UUID createUser(CreateAuthorDto authorDto) {
@@ -43,7 +44,8 @@ public class AuthorService {
                 authorDto.username(),
                 authorDto.email(),
                 passwordEncoder.encode(authorDto.password()),
-                Role.BASIC
+                Role.BASIC,
+                true
         );
         authorRepository.save(user);
 
@@ -59,20 +61,16 @@ public class AuthorService {
                 authorDto.username(),
                 authorDto.email(),
                 passwordEncoder.encode(authorDto.password()),
-                Role.ADMIN
+                Role.ADMIN,
+                true
         );
         authorRepository.save(user);
 
         return user.getId();
     }
 
-    public Optional<Author> getAuthor(String id) {
-        return Optional.ofNullable(authorRepository.findById(UUID.fromString(id))
-                .orElseThrow(() -> new NoSuchElementException("Author with id " + id + " dont found")));
-    }
-
     public List<ResponseAuthorDto> getAllAuthors() {
-        List<Author> authors = authorRepository.findAll();
+        List<Author> authors = authorRepository.findAllByRole(Role.BASIC);
 
         return authors.stream()
                 .map(ConvertToAuthorDto::convert)
@@ -80,7 +78,8 @@ public class AuthorService {
     }
 
     public Author updateAuthor(String authorId, UpdateAuthorDto updateAuthorDto) {
-        var user = authorRepository.findById(UUID.fromString(authorId))
+        var user = authorRepository
+                .findById(UUID.fromString(authorId))
                 .orElseThrow(() -> new NoSuchElementException("No author found with id" + authorId));
 
         var name = Optional.ofNullable(updateAuthorDto.name()).orElse(user.getName());
@@ -94,5 +93,9 @@ public class AuthorService {
         authorRepository.save(user);
 
         return user;
+    }
+
+    public void disableAuthor(Author author) {
+        author.setActive(false);
     }
 }

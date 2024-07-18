@@ -6,6 +6,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import tech.jdev.rest_api_forum.exceptions.TopicAlreadyExistException;
+import tech.jdev.rest_api_forum.exceptions.UserAlreadyExist;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -26,11 +27,17 @@ public class ErrorHandler {
 
     @ExceptionHandler(NoSuchElementException.class)
     public ResponseEntity<Void> elementNotFoundError(NoSuchElementException ex) {
+
         return ResponseEntity.notFound().build();
     }
 
     @ExceptionHandler(TopicAlreadyExistException.class)
     public ResponseEntity<ErrorMessageDto> topicAlreadyExistError(TopicAlreadyExistException ex) {
+        return ResponseEntity.badRequest().body(new ErrorMessageDto(ex.getLocalizedMessage()));
+    }
+
+    @ExceptionHandler(UserAlreadyExist.class)
+    public ResponseEntity<ErrorMessageDto> userAlreadyExist(UserAlreadyExist ex) {
         return ResponseEntity.badRequest().body(new ErrorMessageDto(ex.getLocalizedMessage()));
     }
 

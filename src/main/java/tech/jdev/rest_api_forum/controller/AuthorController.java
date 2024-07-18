@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import tech.jdev.rest_api_forum.controller.dto.*;
-import tech.jdev.rest_api_forum.entity.Author;
+import tech.jdev.rest_api_forum.entity.Topic;
 import tech.jdev.rest_api_forum.repository.AuthorRepository;
 import tech.jdev.rest_api_forum.service.AuthorService;
 import tech.jdev.rest_api_forum.utils.ConvertToTopicDto;
@@ -48,24 +48,31 @@ public class AuthorController {
         return ResponseEntity.ok(new UpdateAuthorDto(updatedAuthor));
     }
 
-    @GetMapping("/{userId}")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<ResponseAuthorDto> getUser(@PathVariable("userId") String userId) {
-        var author = authorService.getAuthor(userId).get();
-        List<ResponseTopicDto> topics = ConvertToTopicDto.convert(author.getTopics());
-
-        return ResponseEntity.ok(new ResponseAuthorDto(author, topics));
-    }
-
     @GetMapping
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<List<ResponseAuthorDto>> getAllUsers() {
         return ResponseEntity.ok(authorService.getAllAuthors());
     }
 
+    @GetMapping("/{userId}")
+    public ResponseEntity<ResponseAuthorDto> getUser(@PathVariable("userId") String userId) {
+        var author = authorRepository
+                .findById(UUID.fromString(userId))
+                .orElseThrow(() -> new NoSuchElementException("Author with " + userId + " not found."));
+
+        if (!author.isActive())
+            throw new NoSuchElementException("Author is disabled");
+
+        var topicsActive = author.getTopics().stream().filter(Topic::isActive).toList();
+
+        List<ResponseTopicDto> topics = ConvertToTopicDto.convert(topicsActive);
+
+        return ResponseEntity.ok(new ResponseAuthorDto(author, topics));
+    }
+
     @DeleteMapping("/{userId}")
     @Transactional
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<Void> deleteAuthor(@PathVariable("userId") String userId) {
         if (authorRepository.existsById(UUID.fromString(userId))) {
             authorRepository.deleteById(UUID.fromString(userId));
@@ -74,13 +81,14 @@ public class AuthorController {
         return ResponseEntity.notFound().build();
     }
 
-    @DeleteMapping
+    @DeleteMapping("/disable")
     @Transactional
-    public ResponseEntity<Void> deleteOwnAccount(@RequestBody @Valid DeleteAccountDto deleteDto) {
-        var user = authorRepository.findByUsername(deleteDto.username())
+    public ResponseEntity<Void> disableOwnAccount(@RequestBody @Valid DisableAccountDto disableDto) {
+        var user = authorRepository
+                .findByUsername(disableDto.username())
                 .orElseThrow(() -> new NoSuchElementException("Username incorrect"));
 
-        authorRepository.delete(user);
+        authorService.disableAuthor(user);
 
         return ResponseEntity.ok().build();
     }
