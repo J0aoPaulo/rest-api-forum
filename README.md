@@ -16,10 +16,12 @@
 - [Endpoints](#endpoints)
 
 
-## Descrição
+## Sobre o projeto
 
-A REST API Forum é uma aplicação backend que fornece endpoints para gerenciar usuários, tópicos e respostas em um fórum de discussão. 
-Utiliza Spring Boot, Spring Security para a segurança e JWT para autenticação.
+A REST API Forum é uma aplicação backend projetada para gerenciar usuários, tópicos e respostas em um fórum de discussão. 
+Desenvolvida com Spring Boot, a API utiliza Spring Security para garantir a proteção e integridade dos dados, e JWT para autenticação, permitindo que apenas usuários autorizados acessem e interajam com os recursos. 
+A aplicação também implementa OAuth2 para gerenciar permissões e tokens de acesso. Além disso, a API usa Flyway para versionamento do banco de dados, assegurando a consistência das alterações ao longo do tempo. 
+A aplicação oferece suporte robusto para operações de CRUD e mantém a integridade dos dados através da exclusão lógica, permitindo a preservação e gerenciamento eficiente das informações no fórum.
 
 ## Instalação
 
@@ -44,7 +46,6 @@ Utiliza Spring Boot, Spring Security para a segurança e JWT para autenticação
     spring.datasource.url=jdbc:mysql://localhost/seu_banco_de_dados
     spring.datasource.username=seu_usuario
     spring.datasource.password=sua_senha
-    spring.jpa.hibernate.ddl-auto=update
     ```
 
 3. Execute o projeto utilizando a IDE de sua escolha.
@@ -73,12 +74,10 @@ Utiliza Spring Boot, Spring Security para a segurança e JWT para autenticação
 - `PUT /authors/{id}`: Atualiza um autor existente.
 - `GET /authors`: Lista todos os autores.
 - `GET /authors/{id}`: Detalha um autor específico.
+- `GET /authors/admins`: Detalha um autor específico.
 - `DELETE /authors/{id}`: Deleta um autor.
 - `DELETE /authors/disable`: Desabilita um autor.
 
-### Segurança
+### Admin
 
-A API utiliza JWT para autenticação e autorização. A rota `/login` é pública assim como `POST /authors`, 
-enquanto as demais exigem um token JWT válido no header da requisição.
-
-## Sobre o projeto
+- `POST /admin`: Cria um novo administrador.

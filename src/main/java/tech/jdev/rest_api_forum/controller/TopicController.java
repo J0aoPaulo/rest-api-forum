@@ -68,7 +68,6 @@ public class TopicController {
     }
 
     @GetMapping("/{topicId}")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<ResponseDetailsTopic> getDetailTopic(@PathVariable("topicId") String topicId) {
         return topicRepository
                 .findById(UUID.fromString(topicId))

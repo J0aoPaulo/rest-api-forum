@@ -35,7 +35,7 @@ public class AuthorController {
     public ResponseEntity<Void> create(@RequestBody @Valid CreateAuthorDto authorDto) {
         var userId = authorService.createUser(authorDto);
 
-        return ResponseEntity.created(URI.create("/v1/authors/" + userId)).build();
+        return ResponseEntity.created(URI.create("/v1/authors/" + userId.toString())).build();
     }
 
     @PutMapping("/{authorId}")
@@ -52,6 +52,12 @@ public class AuthorController {
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<List<ResponseAuthorDto>> getAllUsers() {
         return ResponseEntity.ok(authorService.getAllAuthors());
+    }
+
+    @GetMapping("/admins")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<List<ResponseAuthorDto>> getAllAdmins() {
+        return ResponseEntity.ok(authorService.getAllAdmins());
     }
 
     @GetMapping("/{userId}")

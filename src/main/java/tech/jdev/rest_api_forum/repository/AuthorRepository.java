@@ -17,7 +17,5 @@ public interface AuthorRepository extends JpaRepository<Author, UUID> {
 
     Boolean existsByEmail(String email);
 
-    Boolean existsByPassword(String password);
-
     List<Author> findAllByRole(Role role);
 }

@@ -77,6 +77,14 @@ public class AuthorService {
                 .toList();
     }
 
+    public List<ResponseAuthorDto> getAllAdmins() {
+        List<Author> authors = authorRepository.findAllByRole(Role.ADMIN);
+
+        return authors.stream()
+                .map(ConvertToAuthorDto::convert)
+                .toList();
+    }
+
     public Author updateAuthor(String authorId, UpdateAuthorDto updateAuthorDto) {
         var user = authorRepository
                 .findById(UUID.fromString(authorId))
