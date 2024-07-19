@@ -25,7 +25,6 @@ public class AdminController {
 
     @PostMapping
     @Transactional
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<Void> createAdmin(@RequestBody @Valid CreateAuthorDto authorDto) {
         var userId = authorService.createAdmin(authorDto);
 

@@ -67,15 +67,7 @@ public class TopicController {
         return ResponseEntity.ok(topics);
     }
 
-    @GetMapping("/{topicId}/info")
-    public ResponseEntity<ResponseTopicDto> getTopic(@PathVariable("topicId") String topicId) {
-        return topicRepository
-                .findById(UUID.fromString(topicId))
-                .map(t -> ResponseEntity.ok(new ResponseTopicDto(t)))
-                .orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
-    @GetMapping("/{topicId}/info/detail")
+    @GetMapping("/{topicId}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<ResponseDetailsTopic> getDetailTopic(@PathVariable("topicId") String topicId) {
         return topicRepository

@@ -18,8 +18,8 @@
 
 ## Descrição
 
-A REST API Forum é uma aplicação backend que fornece endpoints para gerenciar tópicos, 
-cursos e autores em um fórum de discussão. O projeto utiliza Spring Boot para construção da API e JWT para segurança.
+A REST API Forum é uma aplicação backend que fornece endpoints para gerenciar usuários, tópicos e respostas em um fórum de discussão. 
+Utiliza Spring Boot, Spring Security para a segurança e JWT para autenticação.
 
 ## Instalação
 
@@ -64,7 +64,8 @@ cursos e autores em um fórum de discussão. O projeto utiliza Spring Boot para 
 - `GET /topics/active`: Lista todos os tópicos ativos.
 - `GET /topics/inactive`: Lista todos os tópicos desativados.
 - `GET /topics/{id}`: Detalha um tópico específico.
-- `DELETE /topics/{id}`: Deleta um tópico.
+- `DELETE /topics/{id}/delete`: Deleta um tópico.
+- `DELETE /topics/{id}/disable`: Desabilitar um tópico.
 
 ### Autores
 
@@ -73,16 +74,11 @@ cursos e autores em um fórum de discussão. O projeto utiliza Spring Boot para 
 - `GET /authors`: Lista todos os autores.
 - `GET /authors/{id}`: Detalha um autor específico.
 - `DELETE /authors/{id}`: Deleta um autor.
+- `DELETE /authors/disable`: Desabilita um autor.
 
 ### Segurança
 
-A API utiliza JWT para autenticação e autorização. A rota `/login` é pública, 
+A API utiliza JWT para autenticação e autorização. A rota `/login` é pública assim como `POST /authors`, 
 enquanto as demais exigem um token JWT válido no header da requisição.
 
-## Contribuição
-
-1. Fork este repositório.
-2. Crie uma branch com sua feature: `git checkout -b minha-feature`.
-3. Commit suas mudanças: `git commit -m 'Adiciona minha feature'`.
-4. Push para a branch: `git push origin minha-feature`.
-5. Abra um Pull Request.
+## Sobre o projeto

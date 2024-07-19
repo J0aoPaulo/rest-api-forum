@@ -35,7 +35,7 @@ public class AuthorController {
     public ResponseEntity<Void> create(@RequestBody @Valid CreateAuthorDto authorDto) {
         var userId = authorService.createUser(authorDto);
 
-        return ResponseEntity.created(URI.create("/v1/authors/" + userId.toString())).build();
+        return ResponseEntity.created(URI.create("/v1/authors/" + userId)).build();
     }
 
     @PutMapping("/{authorId}")
