@@ -11,8 +11,9 @@
 
 ## Índice
 
-- [Descrição](#descrição)
+- [Sobre o projeto](#Sobre o projeto)
 - [Instalação](#instalação)
+- [Funcionalidades](#Funcionalidades)
 - [Endpoints](#endpoints)
 
 
@@ -51,6 +52,19 @@ A aplicação oferece suporte robusto para operações de CRUD.
 3. Execute o projeto utilizando a IDE de sua escolha.
 
 4. API disponível em `http://localhost:8080`.
+
+## Funcionalidades
+- CRUD para tópicos e usuários.
+
+- Paginação e ordenação de tópicos.
+
+- Registro de usuários com informações básicas.
+
+- Autenticação e autorização com OAuth2 e JWT.
+
+- Diferentes papéis de usuário (ADMIN e BASIC) com permissões específicas.
+
+- Tratamento de exceções com mensagens customizadas.
 
 ## Endpoints
 
