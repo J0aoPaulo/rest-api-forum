@@ -20,8 +20,8 @@
 
 A REST API Forum é uma aplicação backend projetada para gerenciar usuários, tópicos e respostas em um fórum de discussão. 
 Desenvolvida com Spring Boot, a API utiliza Spring Security para garantir a proteção e integridade dos dados, e JWT para autenticação, permitindo que apenas usuários autorizados acessem e interajam com os recursos. 
-A aplicação também implementa OAuth2 para gerenciar permissões e tokens de acesso. Além disso, a API usa Flyway para versionamento do banco de dados, assegurando a consistência das alterações ao longo do tempo. 
-A aplicação oferece suporte robusto para operações de CRUD e mantém a integridade dos dados através da exclusão lógica, permitindo a preservação e gerenciamento eficiente das informações no fórum.
+Além disso, a API usa Flyway para versionamento do banco de dados, assegurando a consistência das alterações ao longo do tempo. 
+A aplicação oferece suporte robusto para operações de CRUD. 
 
 ## Instalação
 
