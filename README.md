@@ -11,7 +11,7 @@
 
 ## Índice
 
-- [Sobre o projeto](#Sobre o projeto)
+- [Sobre o projeto](#Sobre-o-projeto)
 - [Instalação](#instalação)
 - [Funcionalidades](#Funcionalidades)
 - [Endpoints](#endpoints)
